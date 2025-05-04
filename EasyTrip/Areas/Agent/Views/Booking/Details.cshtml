@@ -1,0 +1,113 @@
+﻿@using Domain.Enums
+@using Domain.Models
+@model Booking
+
+@{
+	ViewBag.Title = "Booking Details";
+}
+
+<h2 class="display-5">Booking Details</h2>
+<a class="btn btn-warning" asp-area="Agent" asp-controller="Booking" asp-action="Index">Back to List</a>
+
+<div class="container py-5">
+	<div class="card shadow-lg rounded-4 border-0">
+
+		<div class="card-body p-5">
+			<div class="row mb-4">
+				<div class="col-md-6">
+					<h5 class="fw-bold">Booking Details:</h5>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">Trip Name: <strong>@Model.Trip.Title</strong></li>
+						<li class="list-group-item">Booking Date: <strong>@Model.BookingDate</strong></li>
+						<li class="list-group-item">Number of Participants: <strong>@Model.NumberOfParticipants</strong></li>
+						<li class="list-group-item">Total Price: <strong>$@Model.TotalAmount</strong></li>
+						<li class="list-group-item">
+							Booking Status:
+								@if (@Model.Status == BookingStatus.Confirmed)
+								{
+								<span class="badge bg-success">Confirmed</span>
+								}
+								else if (@Model.Status == BookingStatus.Pending)
+								{
+									<span class="badge bg-warning">Pending</span>
+								}
+								else if (@Model.Status == BookingStatus.Completed)
+								{
+								<span class="badge bg-primary">Completed</span>
+								}
+								else if (@Model.Status == BookingStatus.Cancelled)
+								{
+									<span class="badge bg-danger">Cancelled</span>
+								}
+								else if (@Model.Status == BookingStatus.Refunded)
+								{
+								<span class="badge bg-info">Refunded</span>
+								}
+						</li>
+						<li class="list-group-item">
+							Payment Status:
+							@if (ViewBag.Payment != null)
+							{
+								@if (ViewBag.Payment.Status == PaymentStatus.Paid)
+								{
+									<span class="badge bg-success">Paid</span>
+								}
+								else if (ViewBag.Payment.Status == PaymentStatus.Pending)
+								{
+									<span class="badge bg-warning">Pending</span>
+								}
+								else if (ViewBag.Payment.Status == PaymentStatus.Refunded)
+								{
+									<span class="badge bg-primary">Refunded</span>
+								}
+								else if (ViewBag.Payment.Status == PaymentStatus.Rejected)
+								{
+									<span class="badge bg-danger">Rejected</span>
+								}
+							}
+							else
+							{
+								<span class="badge bg-info">No payment</span>
+							}
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-6">
+					<h5 class="fw-bold">Customer Information:</h5>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">Name: <strong>@Model.ApplicationUser.FullName()</strong></li>
+						<li class="list-group-item">Phone: <strong>@Model.ApplicationUser.PhoneNumber</strong></li>
+						<li class="list-group-item">Email: <strong>@Model.ApplicationUser.Email</strong></li>
+					</ul>
+				</div>
+				<div class="row mt-3">
+					<h5 class="fw-bold">Participants</h5>
+
+					@if (@Model.Participants != null && @Model.Participants.Any())
+					{
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Full Name</th>
+									<th>Email</th>
+									<th>Phone Number</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var participant in @Model.Participants)
+								{
+									<tr>
+										<td><strong>@participant.FullName()</strong></td>
+										<td><strong>@participant.Email</strong></td>
+										<td><strong>@participant.PhoneNumber</strong></td>
+									</tr>
+								}
+							</tbody>
+						</table>
+
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

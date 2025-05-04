@@ -1,0 +1,283 @@
+﻿@using Domain;
+@using Domain.StaticDetails
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - EasyTrip</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="//cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="shortcut icon" href="~/images/icons/icon.png" />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+	<link rel="stylesheet" href="~/css/apexcharts.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+
+</head>
+<body>
+	<div class="wrapper">
+		<nav id="sidebar" class="sidebar js-sidebar">
+			<div class="sidebar-content js-simplebar">
+
+				@if (User.IsInRole(UserRole.Admin))
+				{
+					<a casp-area="Admin" asp-action="Index" asp-controller="Dashboard" class="sidebar-link">
+						<span class="align-middle">EasyTrip</span>
+					</a>
+				}
+				else if (User.IsInRole(UserRole.Agent))
+				{
+					<a casp-area="Agent" asp-action="Index" asp-controller="Trip" class="sidebar-link">
+						<span class="align-middle">EasyTrip</span>
+					</a>
+				}
+
+			
+				<ul class="sidebar-nav">
+					<li class="sidebar-header">
+						Dashboard
+					</li>
+					@if (User.IsInRole(UserRole.Admin))
+					{
+						<li class="sidebar-item">
+							<a asp-area="Admin" asp-action="Index" asp-controller="Dashboard" class="sidebar-link">
+								<i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Charts</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a asp-area="Admin" asp-action="Index" asp-controller="User" class="sidebar-link">
+								<i class="align-middle" data-feather="users"></i> <span class="align-middle">Users</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" asp-area="Admin" asp-controller="Payment" asp-action="Index">
+								<i class="align-middle" data-feather="dollar-sign"></i> <span class="align-middle">Payments</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a asp-area="Admin" asp-action="Index" asp-controller="ContactMessage" class="sidebar-link">
+								<i class="align-middle" data-feather="mail"></i> <span class="align-middle">Messages</span>
+							</a>
+						</li>
+					}
+					<li class="sidebar-item">
+						<a asp-area="Agent" asp-action="Index" asp-controller="Trip" class="sidebar-link">
+							<i class="align-middle" data-feather="map"></i> <span class="align-middle">Trips</span>
+						</a>
+					</li>
+					<li class="sidebar-item">
+						<a asp-area="Agent" asp-action="Index" asp-controller="Booking" class="sidebar-link">
+							<i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Bookings</span>
+						</a>
+					</li>
+					<li class="sidebar-item">
+						<a asp-area="Agent" asp-action="Index" asp-controller="Review" class="sidebar-link">
+							<i class="align-middle" data-feather="message-square"></i> <span class="align-middle">Reviews</span>
+						</a>
+					</li>
+					<li class="sidebar-item">
+						<a asp-area="User" target="_blank" asp-action="Index" asp-controller="Home" class="sidebar-link">
+							<i class="align-middle" data-feather="eye"></i> <span class="align-middle">User View</span>
+						</a>
+					</li>
+					<li class="sidebar-header">
+						Settings
+					</li>
+					@if (User.IsInRole(UserRole.Admin))
+					{
+						<li class="sidebar-item">
+							<a class="sidebar-link" asp-area="Admin" asp-controller="Stripe" asp-action="StripeSettings">
+								<i class="align-middle" data-feather="credit-card"></i> <span class="align-middle">Stripe API</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" asp-area="Admin" asp-action="GetTeam" asp-controller="User">
+								<i class="align-middle" data-feather="star"></i> <span class="align-middle">Team</span>
+							</a>
+						</li>
+					}
+					<li class="sidebar-item">
+						<a class="sidebar-link" asp-area="Identity" asp-page="/Account/Manage/Index">
+							<i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
+						</a>
+					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" asp-area="Admin" asp-action="NotificationPreferences" asp-controller="Notification">
+							<i class="align-middle" data-feather="settings"></i> <span class="align-middle">Notification Preferences</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="main">
+			<nav class="navbar navbar-expand navbar-light navbar-bg ps-2">
+				<a class="sidebar-toggle js-sidebar-toggle">
+					<i class="hamburger align-self-center"></i>
+				</a>
+
+				<div class="navbar-collapse collapse">
+					<ul class="navbar-nav navbar-align">
+						<li class="nav-item dropdown">
+							<a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
+								<div class="position-relative">
+									<i class="align-middle" data-feather="bell"></i>
+									<span class="indicator"></span>
+								</div>
+							</a>
+							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
+								<div class="dropdown-menu-header">
+								</div>
+								<div class="list-group">
+
+									@* Here notifications will be rendered through API call *@
+
+								</div>
+
+								<div class="dropdown-menu-header">
+									<a href="/Admin/Notification/Index" class="text-muted">Show all notifications</a>
+								</div>
+							</div>
+						</li>
+						<li class="nav-item dropdown me-2">
+							<a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
+								<i class="align-middle" data-feather="settings"></i>
+							</a>
+
+							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+								<img src="~/images/avatars/avatar.png" class="avatar img-fluid rounded me-1" alt="Charles Hall" /><span class="text-dark">@UserManager.GetUserName(User)</span>
+							</a>
+							<div class="dropdown-menu dropdown-menu-start">
+								<a id="manage" class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
+								<div class="dropdown-divider"></div>
+								<form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+									<button class="dropdown-item" type="submit"> <i class="align-middle me-1" data-feather="log-out"></i> Logout</button>
+								</form>
+
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+			<main class="content">
+				<div class="container-fluid p-0">
+
+					<partial name="_Notification" />
+					@RenderBody()
+
+				</div>
+			</main>
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row text-muted">
+						<div class="col-6 text-start">
+							<p class="mb-0">
+								&copy;&nbsp;<strong>CodeCrafters</strong>
+							</p>
+						</div>
+						<div class="col-6 text-end">
+							<ul class="list-inline">
+								<li class="list-inline-item">
+									<a class="text-muted" href="#" target="_blank">Support</a>
+								</li>
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/js/main.js"></script>
+	<script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script src="~/js/apexcharts.js"></script>
+	<script>
+		feather.replace();
+	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			fetch('/api/notifications/user')
+				.then(response => response.json())
+				.then(data => {
+					const countSpan = document.querySelector('.nav-icon .indicator');
+					const dropdownHeader = document.querySelector('#alertsDropdown + .dropdown-menu .dropdown-menu-header');
+					const listGroup = document.querySelector('#alertsDropdown + .dropdown-menu .list-group');
+					let count = 0;
+
+					const maxNotificationsToShow = 5;  					
+					const notificationsToShow = data.slice(0, maxNotificationsToShow);  
+					let backColor =  "";
+
+					notificationsToShow.forEach(notification => {
+						if(notification.isRead === false)
+						{
+							backColor = "#dcdcdc";
+							count++;
+						}
+						else
+						{
+							backColor =  "white";
+						}
+						const item = `
+							<a href="/Admin/Notification/Details?notificationId=${notification.id}" style="background-color: ${backColor}": class="list-group-item">
+								<div class="row g-0 align-items-center">
+									<div class="col-2">
+										<i class="text-primary" data-feather="info"></i>
+									</div>
+									<div class="col-10">
+										<div class="text-dark">${notification.title}</div>
+										<div class="text-muted small mt-1">${notification.message}</div>
+									</div>
+								</div>
+							</a>`;
+						listGroup.insertAdjacentHTML('beforeend', item);
+						
+					});
+										
+					countSpan.innerText = count;
+					dropdownHeader.innerText = `${count} New Notifications`;
+
+					feather.replace();
+				})
+				.catch(err => console.error(err));
+		});
+	</script>
+	<script>
+		const connection = new signalR.HubConnectionBuilder()
+			.withUrl("/notificationHub")
+			.build();
+
+		connection.on("ReceiveNotification", function (notification) {
+			if (notification) {
+				toastr.options = { "positionClass": "toast-top-right"}
+				toastr.success(notification.message);
+				console.log("New Notification: ", notification.message);
+			}
+		});
+		connection.start().catch(err => console.error(err));
+	</script>
+
+	@await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

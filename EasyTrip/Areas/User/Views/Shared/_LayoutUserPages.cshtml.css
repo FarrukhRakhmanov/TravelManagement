@@ -1,0 +1,233 @@
+﻿/* Ensures the page takes the full height */
+/*html, body {
+    height: 100%;
+    margin: 0;
+}*/
+
+/* Wrapper to create a full-height container */
+/*body {
+    display: flex;
+    flex-direction: column;
+}*/
+
+/* The main content area will take up the available space */
+/*.main-content {
+    flex: 1;
+}*/
+
+/* Footer Styles */
+/*.footer-section {
+    padding: 20px 0;
+    background-color: #f8f9fa;
+    margin-top: auto;*/ /* Push the footer to the bottom */
+/*}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+a {
+    color: #0077cc;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+.hero-section {
+    padding: 100px 0;
+    background-color: #f8f9fa;
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    margin: 20px 0;
+}
+
+.destinations-section {
+    padding: 50px 0;
+}
+
+.destinations-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+}
+
+.card {
+    margin: 10px 0;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+    height: 200px;
+    object-fit: cover;
+}*/
+
+
+
+
+
+
+
+
+
+/* Global Enhancements */
+body {
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    background-color: #f4f7f6;
+}
+
+/* Navbar Styling */
+.navbar {
+    background: linear-gradient(to right, #3494E6, #2c3e50) !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.navbar-brand img {
+    transition: transform 0.3s ease;
+}
+
+    .navbar-brand img:hover {
+        transform: scale(1.1);
+    }
+
+.navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+    .navbar-nav .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 50%;
+        background-color: white;
+        transition: all 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover::after {
+        width: 100%;
+        left: 0;
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: rgba(255,255,255,0.8) !important;
+    }
+
+/* Navbar Toggler */
+.navbar-toggler {
+    border-color: rgba(255,255,255,0.5);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Footer Styling */
+.footer-section {
+    background: linear-gradient(to right, #f4f7f6, #e9ecef) !important;
+    border-top: 1px solid #e1e4e8;
+    padding: 2rem 0;
+}
+
+    .footer-section h5 {
+        color: #2c3e50 !important;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        position: relative;
+    }
+
+        .footer-section h5::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, #3494E6, #2c3e50);
+        }
+
+    .footer-section ul.list-unstyled li a {
+        color: #495057;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+        .footer-section ul.list-unstyled li a:hover {
+            color: #3494E6;
+            padding-left: 5px;
+        }
+
+    /* Social Icons */
+    .footer-section .bi {
+        font-size: 1.5rem;
+        transition: transform 0.3s ease;
+    }
+
+        .footer-section .bi:hover {
+            transform: scale(1.2);
+        }
+
+/* Main Content */
+.main-content {
+    background-color: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    padding: 2rem;
+    border-radius: 12px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .navbar-nav {
+        background-color: rgba(44, 62, 80, 0.95);
+        padding: 1rem;
+    }
+
+    .footer-section .col-md-4 {
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}

@@ -1,0 +1,47 @@
+﻿@using Domain.Models
+@model List<NotificationPreference>
+
+<form method="post" asp-action="UpdateNotificationPreferences">
+	<div class="form-group">
+		<h2 class="display-5">Notifications</h2>
+		<div class="card rounded-4">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Notification Type</th>
+								<th>By Email &nbsp; <i class="align-middle" data-feather="mail"></i></th>
+								<th>In App &nbsp; <i class="align-middle" data-feather="monitor"></i></th>
+							</tr>
+						</thead>
+						<tbody>
+							@for (int i = 0; i < Model.Count; i++)
+							{
+								var preference = Model[i];
+								<tr>
+									<input type="hidden" name="notificationPreferences[@i].Id" value="@preference.Id" />
+									<input type="hidden" name="notificationPreferences[@i].ApplicationUserId" value="@preference.ApplicationUserId" />
+									<input type="hidden" name="notificationPreferences[@i].Type" value="@preference.Type" />
+
+									<td><span>@preference.Type</span></td>
+									<td>
+										<input type="checkbox" name="notificationPreferences[@i].ByEmail"
+											   checked="@preference.ByEmail" value="true" />
+									</td>
+									<td>
+										<input type="checkbox" name="notificationPreferences[@i].InApp"
+											   checked="@preference.InApp" value="true" />
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+				<div class="d-flex align-items-center justify-content-end">
+					<button type="submit" class="btn btn-primary mt-3 w-25">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

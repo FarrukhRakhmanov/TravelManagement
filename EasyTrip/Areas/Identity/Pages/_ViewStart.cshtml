@@ -1,0 +1,25 @@
+﻿@using Application
+@using Domain.StaticDetails
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
+	@if (SignInManager.IsSignedIn(User))
+	{
+		@if (User.IsInRole(UserRole.Admin) || User.IsInRole(UserRole.Agent))
+		{
+			Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+		}
+		else
+		{
+			Layout = "/Areas/User/Views/Shared/_LayoutUserPages.cshtml";
+		}
+	}
+	else
+	{
+		Layout = "/Areas/Identity/Pages/Account/_LayoutAuth.cshtml";
+	}
+}
+
+
+

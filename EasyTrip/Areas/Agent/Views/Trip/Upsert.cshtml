@@ -1,0 +1,184 @@
+﻿@using Domain.ViewModels
+@model TripVM
+
+@{
+	ViewBag.Title = "Trip Add/Update Page";
+}
+
+<div class="card-header bg-info bg-gradient ml-0 py-3 pb-2 rounded-4">
+	<div class="row">
+		<div class="col-12 text-center">
+			<h2 class="text-white py-2"> @(Model.Trip.Id != 0 ? "Update" : "Create") Trip</h2>
+		</div>
+	</div>
+</div>
+
+<div class="pb-2">
+	<a class="btn btn-warning m-1" asp-action="Index">
+		Back to List
+	</a>
+	<a asp-controller="Itinerary" asp-action="Index" asp-route-TripId="@Model.Trip.Id" class="btn btn-primary">
+		@(Model.Trip.Itineraries != null && Model.Trip.Itineraries.Count > 0 ? "View" : "Add") Itinerary
+	</a>
+</div>
+
+<div class="card rounded-4">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-12">
+				<form asp-action="Upsert" method="post" enctype="multipart/form-data">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<input type="hidden" asp-for="@Model.Trip.Id" />
+					<input type="hidden" asp-for="@Model.Trip.ApplicationUserId" />
+					<input asp-for="Trip.ImageUrl" hidden />
+					<div class="row ps-4">
+						<div class="col-md-4 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.Title" class="control-label"></label>
+								<input asp-for="Trip.Title" class="form-control" />
+								<span asp-validation-for="Trip.Title" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-4 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.StartDate" class="control-label">Start Date</label>
+								<input type="date" asp-for="Trip.StartDate" class="form-control" />
+								<span asp-validation-for="Trip.StartDate" class="text-danger"></span>
+							</div>
+						</div>
+
+
+						<div class="col-md-4 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.EndDate" class="control-label">End Date</label>
+								<input type="date" asp-for="Trip.EndDate" class="form-control" />
+								<span asp-validation-for="Trip.EndDate" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-4 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.Destination" class="control-label"></label>
+								<input asp-for="Trip.Destination" class="form-control" />
+								<span asp-validation-for="Trip.Destination" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-4 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.NumberOfDays" class="control-label">Number of Days</label>
+								<input type="text" asp-for="Trip.NumberOfDays" class="form-control" />
+								<span asp-validation-for="Trip.NumberOfDays" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-4 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.SeatsAvailable" class="control-label">Seats Available</label>
+								<input type="text" asp-for="Trip.SeatsAvailable" class="form-control" />
+								<span asp-validation-for="Trip.SeatsAvailable" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-4 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.OriginalPricePerPerson" class="control-label">Original Price: (0 if no discount)</label>
+								<input asp-for="Trip.OriginalPricePerPerson" class="form-control" />
+								<span asp-validation-for="Trip.OriginalPricePerPerson" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-4 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.DiscountPricePerPerson" class="control-label">Discount Price</label>
+								<input asp-for="Trip.DiscountPricePerPerson" class="form-control" />
+								<span asp-validation-for="Trip.DiscountPricePerPerson" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-4 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.SingleSupplement" class="control-label">Single Supplement</label>
+								<input asp-for="Trip.SingleSupplement" class="form-control" />
+								<span asp-validation-for="Trip.SingleSupplement" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-4 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.Status" class="control-label">Trip Status</label>
+								<select disabled="true" asp-for="Trip.Status" class="form-control" asp-items="ViewBag.TripStatus">
+								</select>
+								<span asp-validation-for="Trip.Status" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-4 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.Style" class="control-label">Trip Style</label>
+								<select asp-for="Trip.Style" class="form-control" asp-items="ViewBag.TripStyle">
+									<option value="">-- Select Style --</option>
+								</select>
+								<span asp-validation-for="Trip.Style" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-4 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.ImageUrl" class="control-label">Cover Image</label>
+								<input type="file" name="file" class="form-control border-0 shadow" />
+							</div>
+						</div>
+						<div class="col ms-3 mb-4 form-check form-switch">
+							<label asp-for="Trip.IsFeatured" class="form-check-label" for="toggleSwitch">Featured trips are published in Home page</label>
+							<input asp-for="Trip.IsFeatured" class="form-check-input" type="checkbox" id="toggleSwitch">
+
+						</div>
+
+						<div class="col-md-12 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.Description" class="ms-2 text-muted"></label>
+								<textarea asp-for="Trip.Description" class="form-control border-0 shadow"></textarea>
+								<span asp-validation-for="Trip.Description" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-6 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.Includes" class="ms-2 text-muted">Tour includes</label>
+								<textarea asp-for="Trip.Includes"  class="form-control border-0 shadow"></textarea>
+								<span asp-validation-for="Trip.Includes" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-6 mb-4">
+							<div class="form-group">
+								<label asp-for="Trip.Excludes" class="ms-2 text-muted">Tour excludes</label>
+								<textarea asp-for="Trip.Excludes" class="form-control border-0 shadow"></textarea>
+								<span asp-validation-for="Trip.Excludes" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row col-12 justify-content-between">
+						<div class="col-auto">
+							<a class="btn btn-warning m-1" asp-action="Index">
+								Back to List
+							</a>
+						</div>
+						<div class="col-auto">
+							<button type="submit" class="btn btn-success m-1">
+								@if (Model.Trip.Id == 0)
+								{
+									<text>Add Trip</text>
+								}
+								else
+								{
+									<text>Save Changes</text>
+								}
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+	<script src="https://cdn.tiny.cloud/1/fx9mny7ao75zayk9x8eqsxpzidczbd7duk5clcflvywpy8ge/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+	<script src="~/js/tinymce.js"></script>
+}

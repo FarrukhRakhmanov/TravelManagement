@@ -1,0 +1,72 @@
+﻿@using Domain.Enums
+@using Domain.Models
+@model List<Booking>
+
+@{
+    ViewData["Title"] = "My Bookings";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <h1 class="fw-bold text-center mb-4">@ViewData["Title"]</h1>
+
+            @if (Model != null && Model.Count > 0)
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Title</th>
+                                <th>Destination</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Participants</th>
+                                <th>Total Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var booking in Model)
+                            {
+                                <tr>
+                                    <td>@booking.Trip.Title</td>
+                                    <td>@booking.Trip.Destination</td>
+                                    <td>@booking.Trip.StartDate</td>
+                                    <td>@booking.Trip.EndDate</td>
+                                    <td>@booking.NumberOfParticipants</td>
+                                    <td>@booking.TotalAmount</td>
+                                    <td>
+                                        <span class="badge
+                                            @(booking.Status == BookingStatus.Pending ? "bg-warning text-dark" : "bg-success")">
+                                            @booking.Status
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-outline-primary"
+                                           asp-area="User"
+                                           asp-controller="Booking"
+                                           asp-action="@(booking.Status != BookingStatus.Pending ? "Details" : "Initiate")"
+                                           asp-route-bookingId="@booking.Id">
+                                            Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center">
+                    <p class="lead">You don't have any bookings yet.</p>
+                    <img src="~/images/hero-section/hero-image.jpg" class="img-fluid rounded shadow-sm mt-3" alt="Travel">
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/js/site.js"></script>

@@ -1,0 +1,120 @@
+﻿@using Domain.Models
+@model Itinerary
+
+@{
+	ViewBag.Title = "Add/Update Itinerary Page";
+}
+<div class="card-header bg-info bg-gradient ml-0 py-3 mb-2 rounded-4">
+	<div class="row">
+		<div class="col-12 text-center">
+			<h2 class="text-white py-2"> @(Model.Id != 0 ? "Update" : "Create") Itinerary</h2>
+		</div>
+	</div>
+</div>
+
+<div class="col-md-2">
+	<a class="btn btn-warning m-1" asp-action="Index" asp-route-TripId="@Model.TripId">
+		Back to List
+	</a>
+</div>
+
+<div class="card rounded-4">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-12">
+				<form asp-controller="Itinerary" asp-action="Upsert" method="post" enctype="multipart/form-data">
+
+					<!-- Hidden fields to retain IDs -->
+					<input type="hidden" asp-for="TripId" />
+					<input type="hidden" asp-for="Id" />
+					<input asp-for="ImageUrl" hidden />
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<div class="row col-12">
+						<div class="col-4">
+							<div class="form-group mb-4">
+								<label asp-for="Date" class="control-label"></label>
+								<input asp-for="Date" class="form-control" />
+								<span asp-validation-for="Date" class="text-danger"></span>
+							</div>
+							<div class="form-group mb-4">
+								<label asp-for="Activity" class="control-label">Activity Name</label>
+								<input asp-for="Activity" class="form-control" />
+								<span asp-validation-for="Activity" class="text-danger"></span>
+							</div>
+							<div class="form-group mb-4">
+								<label asp-for="Order" class="control-label">Order</label>
+								<input asp-for="Order" class="form-control" />
+								<span asp-validation-for="Order" class="text-danger"></span>
+							</div>
+							<div class="form-group mb-4">
+								<label asp-for="ImageUrl" class="control-label">Cover Image</label>
+								<input type="file" name="file" class="form-control border-0 shadow" />
+							</div>
+						</div>
+						<div class="col">
+							<div class="row col mb-1">
+								<div class="col-6 mb-4">
+									<label asp-for="Includes" class="ms-2 text"></label>
+									<textarea asp-for="Includes" class="form-control border-0 shadow">
+									</textarea>
+									<span asp-validation-for="Includes" class="text-danger"></span>
+								</div>
+								<div class="col-6 mb-4">
+									<label asp-for="Excludes" class="ms-2 text"></label>
+									<textarea asp-for="Excludes" class="form-control border-0 shadow">
+									</textarea>
+									<span asp-validation-for="Excludes" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 mb-3">
+							<label asp-for="Description" class="ms-2 text"></label>
+							<textarea asp-for="Description" class="form-control border-0 shadow">
+								</textarea>
+							<span asp-validation-for="Description" class="text-danger"></span>
+						</div>
+					</div>
+					<div class="row col-12 d-flex justify-content-between">
+						<!-- Left Button (Back to List) -->
+						<div class="col-auto">
+							<div class="form-group mb-4">
+								<a class="btn btn-warning" asp-action="Index" asp-route-TripId="@Model.TripId">
+									Back to List
+								</a>
+							</div>
+						</div>
+
+						<!-- Right Button (Add Itinerary or Save Changes) -->
+						<div class="col-auto">
+							<div class="form-group mb-4">
+								<button type="submit" class="btn btn-success">
+									@if (Model.Id == 0)
+									{
+										<text>Add Itinerary</text>
+									}
+									else
+									{
+										<text>Save Changes</text>
+									}
+								</button>
+							</div>
+						</div>
+					</div>
+
+
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+	<script src="https://cdn.tiny.cloud/1/fx9mny7ao75zayk9x8eqsxpzidczbd7duk5clcflvywpy8ge/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+	<script src="~/js/tinymce.js"></script>
+}

@@ -1,0 +1,55 @@
+﻿@using Domain.Models
+@model Review
+
+@{
+    ViewData["Title"] = "Submit Review";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg p-4 rounded">
+                <h2 class="text-center mb-4 text-primary">Submit Your Review</h2>
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success text-center">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+
+                <form asp-action="SubMitReview" method="post" novalidate>
+					<input type="hidden" asp-for="ParticipantId" />
+					<input type="hidden" asp-for="TripId" />
+					<input type="hidden" asp-for="Status" />
+
+                    <div class="mb-3">
+                        <label asp-for="Comment" class="form-label fw-bold">Your Comment</label>
+                        <textarea asp-for="Comment" class="form-control" rows="4" placeholder="Write your review..."></textarea>
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Rating" class="form-label fw-bold">Rating</label>
+                        <select asp-for="Rating" class="form-select">
+                            <option value="">Select Rating</option>
+                            <option value="1">⭐ - 1</option>
+                            <option value="2">⭐⭐ - 2</option>
+                            <option value="3">⭐⭐⭐ - 3</option>
+                            <option value="4">⭐⭐⭐⭐ - 4</option>
+                            <option value="5">⭐⭐⭐⭐⭐ - 5</option>
+                        </select>
+                        <span asp-validation-for="Rating" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            Submit Review
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

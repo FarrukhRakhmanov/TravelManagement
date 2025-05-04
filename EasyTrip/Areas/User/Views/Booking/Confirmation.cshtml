@@ -1,0 +1,31 @@
+﻿@using Domain.Models
+@model Booking
+
+@{
+	ViewBag.Title = "Booking Confirmation";
+}
+
+<div class="container my-5">
+	<div class="row justify-content-center">
+		<div class="col-lg-8 col-md-10 col-sm-12">
+			<div class="card shadow-lg rounded-4">
+				<div class="card-body text-center p-5">
+					<h1 class="card-title text-success mb-4">
+						<i class="bi bi-check-circle-fill"></i> Your Booking is Confirmed!
+					</h1>
+					<h4 class="card-subtitle mb-3 text-muted">Thank You for Booking with Us!</h4>
+					<p class="mb-4">Your trip details are confirmed. We are excited to take you on an unforgettable adventure!</p>
+
+					<div class="text-start">
+						<p><strong>Booking ID:</strong> @Model.Id</p>
+						<p><strong>Destination:</strong> @Model.Trip.Destination</p>
+						<p><strong>Departure Date:</strong> @Model.Trip.StartDate</p>
+						<p><strong>Return Date:</strong> @Model.Trip.EndDate</p>
+					</div>
+
+					<a href="/" class="btn btn-primary mt-4 px-4 py-2">Back to Home</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

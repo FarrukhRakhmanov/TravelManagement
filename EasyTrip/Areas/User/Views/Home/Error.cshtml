@@ -1,0 +1,27 @@
+﻿<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-0">
+                <div class="card-body text-center p-5">
+                    <!-- Error icon -->
+                    <svg class="mb-4" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#dc3545" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+
+                    <!-- Error heading -->
+                    <h1 class="display-4 mb-4">Oops! Something went wrong</h1>
+
+                    <!-- Error message -->
+                    <p class="lead mb-4">We apologize for the inconvenience. An unexpected error has occurred while processing your request.</p>
+
+                    <!-- Action buttons -->
+                    <div class="d-flex justify-content-center gap-3">
+                        <a asp-area="User" asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg px-4">Go to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+﻿@page
+@using Web.Areas.Identity.Pages.Account
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Email confirmation";
+}
+@{
+	Layout = "/Areas/User/Views/Shared/_LayoutUserPages.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+<partial name="_StatusMessage" model="Model.StatusMessage" />

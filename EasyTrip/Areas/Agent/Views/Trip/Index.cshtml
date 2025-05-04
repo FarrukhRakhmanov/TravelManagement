@@ -1,0 +1,170 @@
+﻿@using Domain.Enums
+@using Domain.Models
+@model List<Trip>
+
+@{
+	ViewBag.Title = "All Trips Page";
+}
+
+<h2 class="display-5">Trips</h2>
+<div class="pb-2">
+	<a asp-controller="Trip" asp-action="Upsert" class="btn btn-success">
+		<i class="bi bi-plus-circle"></i>  Create New Trip
+	</a>
+</div>
+
+<div class="card rounded-4">
+
+	<div class="card-body">
+		<div class="table-responsive">
+			<table id="tripsTBL" class="table table-striped table-bordered" style="width:100%">
+				<thead>
+					<tr>
+						<th>
+							Actions
+						</th>
+						<th>
+							Created By
+						</th>
+						<th>
+							Title
+						</th>
+						<th>
+							Destination
+						</th>
+						<th>
+							Start
+						</th>
+						<th>
+							End
+						</th>
+						<th>
+							Price
+						</th>
+						<th>
+							Status
+						</th>
+						<th>
+							Image
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var trip in Model)
+					{
+						<tr>
+							<td class="container-fluid">
+								<div class="dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+										Actions
+									</button>
+									<ul class="dropdown-menu">
+										<li>
+											<a asp-area="User" target="_blank" asp-controller="Home" asp-action="Details" asp-route-tripId="@trip.Id" class="me-2 dropdown-item">
+												<i class="bi bi-eye text-info"></i> View
+											</a>
+										</li>
+										<li>
+											<a asp-controller="Trip" asp-action="Upsert" asp-route-tripId="@trip.Id" class="me-2 dropdown-item">
+												<i class="bi bi-pencil text-primary"></i> Edit
+											</a>
+										</li>
+										<li>
+											<a asp-controller="Trip" asp-action="Publish" asp-route-tripId="@trip.Id" class="me-2 dropdown-item">
+												<i class="bi bi-cloud-arrow-up text-success"></i> Publish
+											</a>
+										</li>
+										<li>
+											<a asp-controller="Trip" asp-action="Cancel" asp-route-tripId="@trip.Id" class="me-2 dropdown-item">
+												<i class="bi bi-x-circle text-warning"></i> Cancel
+											</a>
+										</li>
+										<li>
+											<form asp-controller="Trip" id="deleteForm" asp-action="Delete" method="post" style="display: inline;">
+												<input type="hidden" name="TripId" value="@trip.Id" />
+												<button onclick="confirmDelete(event)" class="dropdown-item">
+													<i class="bi bi-trash text-danger"></i> Delete
+												</button>
+											</form>
+										</li>
+									</ul>
+								</div>
+							</td>
+							<td>
+								@trip.ApplicationUser.FirstName
+							</td>
+							<td>
+								@trip.Title
+							</td>
+							<td>
+								@trip.Destination
+							</td>
+							<td>
+								@trip.StartDate
+							</td>
+							<td>
+								@trip.EndDate
+							</td>
+							<td>
+								@trip.DiscountPricePerPerson
+							</td>
+							<td>
+								@if (@trip.Status == TripStatus.Published)
+								{
+									<span class="bg-success text-white p-2 rounded-4">@trip.Status</span>
+
+								}
+								else if (@trip.Status == TripStatus.Cancelled)
+								{
+									<span class="bg-danger text-white p-2 rounded-4">@trip.Status</span>
+								}
+								else if (@trip.Status == TripStatus.Finished)
+								{
+									<span class="bg-primary text-white p-2 rounded-4">@trip.Status</span>
+								}
+								else if (@trip.Status == TripStatus.Sold)
+								{
+									<span class="bg-warning text-white p-2 rounded-4">@trip.Status</span>
+								}
+								else if (@trip.Status == TripStatus.Draft)
+								{
+									<span class="bg-secondary text-white p-2 rounded-4">@trip.Status</span>
+								}
+								else
+								{
+									<span class="bg-info text-white p-2 rounded-4">@trip.Status</span>
+								}
+							</td>
+
+
+							<td>
+								@if (trip.ImageUrl != null)
+								{
+									<img src="@trip.ImageUrl" style="border-radius: 5px; border: 1px solid #bbb9b9" class="align-items-center rounded" width="100" />
+								}
+								else
+								{
+									<img src="~/images/avatars/placeholder.png" alt="Placeholder Image" style="border-radius: 5px; border: 1px solid #bbb9b9" class="align-items-center rounded" width="100" />
+								}
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+
+	<script src="~/js/site.js"></script>
+	<script>
+		$(document).ready(function () {
+			$('#tripsTBL').DataTable({
+				paging: true,
+				searching: true,
+				ordering: true
+			});
+		});
+	</script>
+}

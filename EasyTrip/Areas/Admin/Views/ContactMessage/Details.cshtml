@@ -1,0 +1,29 @@
+﻿@using Domain.Models
+@model ContactMessage
+
+@{
+	ViewBag.Title = "Booking Details";
+}
+
+<h2 class="display-5">Contact Message</h2>
+<a class="btn btn-warning" asp-area="Admin" asp-controller="ContactMessage" asp-action="Index">Back to List</a>
+
+<div class="container py-5">
+	<div class="card shadow-lg rounded-4 border-0">
+		<div class="card-body p-5">
+			<div class="row mb-4">
+				<div class="col-md-6">
+					<h5 class="fw-bold">Message Details:</h5>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">First Name: <strong>@Model.FirstName</strong></li>
+						<li class="list-group-item">Last Name: <strong>@Model.LastName</strong></li>
+						<li class="list-group-item">Email: <strong>@Model.Email</strong></li>
+						<li class="list-group-item">Phone Number: <strong>@Model.PhoneNumber</strong></li>
+						<li class="list-group-item">Sent At: <strong>@Model.CreatedAt</strong></li>
+						<li class="list-group-item">Message: <br /><br /> <strong>@Model.Message</strong></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

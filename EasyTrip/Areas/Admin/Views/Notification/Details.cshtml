@@ -1,0 +1,24 @@
+﻿@using Domain.Models
+@model Notification
+@{
+	ViewBag.Title = "Notification Details";
+}
+
+<h2 class="display-5">Notification Details</h2>
+<a class="btn btn-warning" asp-area="Admin" asp-controller="Notification" asp-action="Index">Back to List</a>
+
+<div class="container py-5">
+	<div class="card shadow-lg rounded-4 border-0">
+
+		<div class="card-body p-5">
+			<h5 class="fw-bold">Notification Details:</h5>
+			<ul class="list-group list-group-flush">
+				<li id="title" class="list-group-item">Title: <strong>@Model.Title</strong></li>
+				<li id="createdAt" class="list-group-item">Created At: <strong>@Model.CreatedAt</strong></li>
+				<li id="message" class="list-group-item">Message:<br/><b></b> <strong>@Model.Message</strong></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+

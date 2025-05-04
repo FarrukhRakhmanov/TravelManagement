@@ -1,0 +1,53 @@
+﻿@page
+@using Web.Areas.Identity.Pages.Account
+@model LoginModel
+@{
+    ViewData["Title"] = "Log in";
+}
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow border-0 mt-4 col-12 col-md-8 mx-3">
+        <div class="card-body p-3">
+            <div class="row">
+                <div class="col-12">
+                    <div class="text-center">
+                        <img src="~/images/avatars/avatar.png" alt="Charles Hall" class="img-fluid rounded-circle" width="80" height="80" />
+                    </div>
+                    <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger">
+                                @TempData["ErrorMessage"]
+                            </div>
+                        }
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Email" class="form-control form-control-lg w-100" type="email" placeholder="Enter your email" />
+                            <label asp-for="Input.Email" class="form-label">Email</label>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Password" class="form-control form-control-lg w-100" type="password" placeholder="Enter your password" />
+                            <label asp-for="Input.Password" class="form-label">Password</label>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input asp-for="Input.RememberMe" class="form-check-input" type="checkbox" />
+                            <label asp-for="Input.RememberMe" class="form-check-label">Remember Me</label>
+                        </div>
+                        <div class="d-grid gap-2 mb-3">
+                            <button id="login-submit" type="submit" class="btn btn-lg btn-primary">Login</button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p><a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a></p>
+                            <p><a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

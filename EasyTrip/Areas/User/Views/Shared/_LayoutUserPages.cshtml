@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - EasyTrip</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+	<link rel="stylesheet" href="~/css/frontpage.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="//cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+	<link rel="shortcut icon" href="~/images/icons/icon.png" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+	<!-- Bootstrap Icons CDN -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
+			<div class="container-fluid">
+				<a class="navbar-brand" asp-area="User" asp-controller="Home" asp-action="Index"><img src="~/images/icons/logo.png" width="100" /></a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+					<ul class="navbar-nav flex-grow-1">
+						<li class="nav-item">
+							<a class="nav-link" asp-area="User" asp-controller="Home" asp-action="Index">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-area="User" asp-controller="Home" asp-action="GetAll">Travel Packages</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-area="User" asp-controller="Home" asp-action="Contact">Contact</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-area="User" asp-controller="Home" asp-action="About">About</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-area="User" asp-controller="Home" asp-action="Privacy">Privacy</a>
+						</li>
+					</ul>
+					<partial name="_LoginPartial" />
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<div class="container main-content">
+		<main role="main" class="pb-3">
+			@RenderBody()
+			<partial name="_Notification" />
+		</main>
+	</div>
+
+	<!-- Footer -->
+	<footer class="footer-section bg-white pb-3 pt-4 text-dark">
+		<div class="container pt-3">
+			<div class="row">
+				<div class="col-md-4">
+					<h5 style="font-size: 1.5rem;" class="text-dark">EasyTrip</h5>
+					<p>Your gateway to the world.</p>
+				</div>
+				<div class="col-md-4">
+					<h5 class="text-dark">Quick Links</h5>
+					<ul class="list-unstyled">
+						<li><a asp-area="User" asp-controller="Home" asp-action="Index">Home</a></li>
+						<li><a asp-area="User" asp-controller="Home" asp-action="GetAll">Travel Packages</a></li>
+						<li><a asp-area="User" asp-controller="Home" asp-action="About">About</a></li>
+						<li><a asp-area="User" asp-controller="Home" asp-action="Contact">Contact</a></li>
+						
+					</ul>
+				</div>
+				<div class="col-md-4">
+					<h5 class="text-dark">Follow Us</h5>
+					<a href="#" class="me-2"><i class="bi bi-facebook" style="color: #1877F2;"></i></a>
+					<a href="#" class="me-2"><i class="bi bi-youtube" style="color: #FF0000;"></i></a>
+					<a href="#" class="me-2"><i class="bi bi-instagram" style="color: #E1306C;"></i></a>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/js/main.js"></script>
+	<script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.0/jquery.validate.min.js"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate.unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

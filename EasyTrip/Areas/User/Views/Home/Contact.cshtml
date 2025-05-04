@@ -1,0 +1,67 @@
+﻿@using Domain.ViewModels
+@model ContactMessageVM
+
+@{
+    ViewData["Title"] = "Contact Page";
+}
+
+<div class="container mb-4">
+    <div class="row align-items-center">
+        <div class="col-12 mb-3">
+            <h1 class="text-center">Explore the World with Us</h1>
+            <p class="text-center">Still have questions? Drop a message to us</p>
+        </div>
+
+        <div class="col-12 col-lg-6 order-1 order-lg-2 mb-4">
+            <img src="~/images/hero-section/contact.jpg" class="img-fluid rounded-4 shadow-sm w-100" alt="Travel">
+        </div>
+
+        <div class="col-12 col-lg-6 order-2 order-lg-1">
+            <div class="card rounded-4 p-3 shadow-sm">
+                <div class="card-body">
+                    @if (TempData.Any())
+                    {
+                        <h2>Thank you for reaching out to us.</h2>
+                        <p>We will reply to you as soon as possible.</p>
+                    }
+                    else
+                    {
+                        <form asp-area="User" asp-controller="Home" asp-action="Contact" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label asp-for="@Model.ContactMessage.FirstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" asp-for="@Model.ContactMessage.FirstName">
+                                    <span asp-validation-for="@Model.ContactMessage.FirstName" class="text-danger"></span>
+                                </div>
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label asp-for="@Model.ContactMessage.LastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" asp-for="@Model.ContactMessage.LastName">
+                                    <span asp-validation-for="@Model.ContactMessage.LastName" class="text-danger"></span>
+                                </div>
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label asp-for="@Model.ContactMessage.Email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" asp-for="@Model.ContactMessage.Email">
+                                    <span asp-validation-for="@Model.ContactMessage.Email" class="text-danger"></span>
+                                </div>
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label asp-for="@Model.ContactMessage.PhoneNumber" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" asp-for="@Model.ContactMessage.PhoneNumber">
+                                    <span asp-validation-for="@Model.ContactMessage.PhoneNumber" class="text-danger"></span>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label asp-for="@Model.ContactMessage.Message" class="form-label">Message</label>
+                                    <textarea class="form-control" asp-for="@Model.ContactMessage.Message" rows="4"></textarea>
+                                    <span asp-validation-for="@Model.ContactMessage.Message" class="text-danger"></span>
+                                </div>
+                                <div class="col-12 d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary w-75">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

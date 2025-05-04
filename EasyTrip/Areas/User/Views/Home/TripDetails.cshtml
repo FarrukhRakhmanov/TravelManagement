@@ -1,0 +1,227 @@
+﻿@using Domain.ViewModels
+@model TripVM
+
+@{
+	ViewBag.Title = "Trip Details";
+}
+
+
+@{
+	var averageRating = Model.ReviewList.Any() ? Model.ReviewList.Average(r => r.Rating) : 0;
+	var fullStars = (int)averageRating;
+	var fractionalStar = averageRating - fullStars; // Fractional part (0 - 1)
+	var totalReviews = Model.ReviewList.Count();
+}
+
+
+
+<div id="#top" class="container mt-3">
+	<a asp-area="User" class="btn btn-outline-secondary mb-2" asp-controller="Home" asp-action="Index"><i class="bi bi-arrow-return-left"></i> Back to Trips</a>
+
+	<h1 style="font-size: 2rem;" class="card-title display-1">@Model.Trip.Title in @Model.Trip.NumberOfDays Days</h1>
+
+	@if (Model.ReviewList.Any())
+	{
+		<a class="nav-link" style="display:inline-flex" href="#reviews-section">
+
+			<span>@averageRating.ToString("0.0") &nbsp;</span>
+			<span class="text-warning">
+				@for (int i = 0; i < fullStars; i++)
+				{
+					<span class="bi bi-star-fill"></span>
+				}
+				@if (fractionalStar >= 0.5)
+				{
+					<span class="bi bi-star-half"></span>
+				}
+				@for (int i = fullStars + (fractionalStar >= 0.5 ? 1 : 0); i < 5; i++)
+				{
+					<span class="bi bi-star"></span>
+				}
+			</span>
+			<span>&nbsp; (@totalReviews -&nbsp;</span>reviews)
+
+		</a>
+	}
+
+	<div class="card shadow-sm">
+		<img src="@Model.Trip.ImageUrl" class="card-img-top" alt="Trip Image" width="200px" style="height: 350px; object-fit: cover;">
+
+		<div class="card-body">
+			<p style="font-size: 1.5rem;" class="card-title display-6">Destination: @Model.Trip.Destination</p>
+
+			<div class="row my-3">
+				<div class="col-md-4">
+					<p><strong>Start Date:</strong> @Model.Trip.StartDate?.ToString("MMMM dd, yyyy")</p>
+					<p><strong>End Date:</strong> @Model.Trip.EndDate?.ToString("MMMM dd, yyyy")</p>
+					<p><strong>Number of Days:</strong> @Model.Trip.NumberOfDays</p>
+
+				</div>
+				<div class="col-md-4">
+					<p><strong>Price Per Person:</strong><span>$@Model.Trip.DiscountPricePerPerson.ToString("F2")</span></p>
+					<p><strong>Single Supplement:</strong> $@Model.Trip.SingleSupplement.ToString("F2")</p>
+					<p><strong>Seats Available:</strong> @Model.Trip.SeatsAvailable</p>
+				</div>
+				<div class="col-md-4">
+					<div class="card-body">
+						<a asp-area="User" style="font-size: 1.1rem; font-weight: bold" asp-controller="Booking" class="btn btn-primary btn-lg w-75 m-3 p-2" asp-action="Create" asp-route-tripId="@Model.Trip.Id">Create Booking</a>
+					</div>
+				</div>
+			</div>
+
+			<h4 style="font-size: 1.5rem;" class="card-title display-6 mt-4">Trip Overview</h4>
+			<p>@Html.Raw(Model.Trip.Description)</p>
+
+			<div class="row">
+				<div class="col-md-6 mb-2">
+					<p5><strong>Includes:</strong></p5>
+					<p>
+						@Html.Raw(@Model.Trip.Includes.Replace("<ul>", "")
+															.Replace("</ul>", "")
+															.Replace("<li>", "\u2705")
+															.Replace("</li>", "<br>"))
+					</p>
+				</div>
+				<div class="col-md-6">
+					<p5><strong>Excludes:</strong></p5>
+					<p>
+						@Html.Raw(@Model.Trip.Excludes.Replace("<ul>", "")
+															.Replace("</ul>", "")
+															.Replace("<li>", "\u274c")
+															.Replace("</li>", "<br>"))
+					</p>
+				</div>
+			</div>
+
+			@if (Model.Trip.Itineraries != null && Model.Trip.Itineraries.Any())
+			{
+				<p style="font-size: 1.5rem;" class="card-title display-6 mt-4 mb-4">Itinerary</p>
+				<div class="col-12" id="accordion">
+					@for (int i = 0; i < Model.Trip.Itineraries.Count; i++)
+					{
+						var item = Model.Trip.Itineraries.ElementAt(i);
+						var collapseId = "collapse" + i; // Unique ID for each item
+
+						<div class="card card-primary card-outline">
+							<a class="d-block w-100 collapsed" data-bs-toggle="collapse" href="#@collapseId" aria-expanded="false">
+								<div class="card-header bg-secondary">
+									<p class="card-title text-dark w-100">
+										@item.DateToString() : @item.Activity
+									</p>
+								</div>
+							</a>
+							<div id="@collapseId" class="collapse" data-bs-parent="#accordion">
+								<div class="card-body row">
+									<div class="col-md-7">
+										<div class="col mb-4">
+											<p>Daily Activity</p>
+											<p>@item.Description</p>
+										</div>
+										<div class="row">
+											<div class="col-6">
+												<p>Includes:</p>
+												@if (item.Includes != null)
+												{
+													@Html.Raw(@item.Includes.Replace("<ul>", "")
+																									.Replace("</ul>", "")
+																									.Replace("<li>", "\u2705")
+																									.Replace("</li>", "<br>"))
+												}
+											</div>
+											<div class="col-6">
+												<p>Excludes:</p>
+												@if (item.Excludes != null)
+												{
+													@Html.Raw(@item.Excludes.Replace("<ul>", "")
+																									.Replace("</ul>", "")
+																									.Replace("<li>", "\u274c")
+																									.Replace("</li>", "<br>"))
+												}
+											</div>
+										</div>
+									</div>
+									<div class="col-md-5 text-end">
+										<img src="@item.ImageUrl" class="img-fluid w-75 rounded-3" alt="Image">
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+			}
+		</div>
+	</div>
+	<div class="row" id="reviews-section">
+		<div class="col-md-12">
+			@if (Model.ReviewList != null && Model.ReviewList.Any())
+			{
+				<h2 style="font-size: 24px;" class="card-title ms-2 mt-3">Traveller Reviews</h2>
+
+				@foreach (var review in Model.ReviewList)
+				{
+					<div class="card">
+						<div class="card-body">
+							<div class="review mb-4">
+								<div class="d-flex justify-content-between">
+									<div style="display: flex;">
+										<span class="circle-icon" id="random-color-span-@review.Id">@review.Participant.FirstName[0] @review.Participant.LastName[0]</span>
+										<span style="font-weight: bold; padding: 15px 0 0 5px ">@review.Participant.FullName()</span>
+										<span style="padding: 15px 0 0 5px " class="text-muted"> &nbsp; @review.CreatedAt.ToString("MMMM dd, yyyy")</span>
+									</div>
+									<div>
+										<span class="text-warning">
+											@if (review.Rating == 1)
+											{
+												<span>⭐</span>
+											}
+											else if (review.Rating == 2)
+											{
+												<span>⭐⭐</span>
+											}
+											else if (review.Rating == 3)
+											{
+												<span>⭐⭐⭐</span>
+											}
+											else if (review.Rating == 4)
+											{
+												<span>⭐⭐⭐⭐</span>
+											}
+											else
+											{
+												<span>⭐⭐⭐⭐⭐</span>
+											}
+										</span>
+									</div>
+								</div>
+								<p class="mt-2 pt-3 ms-3">@review.Comment</p>
+							</div>
+						</div>
+					</div>
+				}
+			}
+		</div>
+	</div>
+
+	<a class="btn btn-outline-secondary mb-2" href="#top"><i class="bi bi-arrow-up"></i> Back to top</a>
+
+</div>
+
+<script>
+	function getRandomColor() {
+		// Generate a random color in hexadecimal format
+		const letters = '0123456789ABCDEF';
+		let color = '#';
+		for (let i = 0; i < 6; i++) {
+			color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
+	}
+
+	document.addEventListener("DOMContentLoaded", function() {
+		var circleIcons = document.querySelectorAll('.circle-icon');
+		circleIcons.forEach(function(icon) {
+			icon.style.backgroundColor = getRandomColor();
+		});
+	});
+</script>
+

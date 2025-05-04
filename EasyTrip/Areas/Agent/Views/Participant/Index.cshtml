@@ -1,0 +1,26 @@
+﻿@using Domain.Models
+@model List<Participant>
+
+@{
+	ViewBag.Title = "Participants";
+}
+
+<h2>Participants</h2>
+
+<table class="table">
+	<tr>
+		<th>Participant ID</th>
+		<th>First Name</th>
+		<th>Last Name</th>
+		<th>Trip</th>
+	</tr>
+	@foreach (var person in Model)
+	{
+		<tr>
+			<td>@person.Id</td>
+			<td>@person.FirstName</td>
+			<td>@person.LastName</td>
+			<td>@person.Booking.Trip.Title</td>
+		</tr>
+	}
+	</table>

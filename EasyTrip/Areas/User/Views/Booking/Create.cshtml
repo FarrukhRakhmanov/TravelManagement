@@ -1,0 +1,219 @@
+﻿@using Domain.ViewModels
+@model BookingVM
+
+@{
+    ViewData["Title"] = "Create Booking";
+}
+
+<div class="container">
+    <div class="card shadow border-0">
+        <div class="card-header bg-secondary bg-gradient text-light ml-0 py-4">
+            <div class="row px-2 px-md-4">
+                <div class="col-12 col-md-6">
+                    <h2 class="pt-2 text-white">Booking Creation</h2>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="container rounded p-2">
+                <div class="row">
+                    <!-- Trip Details -->
+                    <div class="col-12 col-md-4 mb-4">
+                        <h3>Trip details</h3>
+                        <p><strong>Trip:</strong> @Model.Booking.Trip.Title</p>
+                        <p><strong>Destination:</strong> @Model.Booking.Trip.Destination</p>
+                        <p><strong>Start Date:</strong> @Model.Booking.Trip.StartDate</p>
+                        <p><strong>End Date:</strong> @Model.Booking.Trip.EndDate</p>
+                        <p><strong>Number of Days:</strong> @Model.Booking.Trip.NumberOfDays</p>
+                        <p><strong>Price per person:</strong> @Model.Booking.Trip.DiscountPricePerPerson</p>
+                        <p><strong>Single Room Supplement:</strong> @Model.Booking.Trip.SingleSupplement</p>
+                        <p><strong>Number of participants:</strong> @Model.Booking.NumberOfParticipants</p>
+                        <p><strong>Total Amount:</strong> $@Model.Booking.TotalAmount</p>
+                    </div>
+
+                    <!-- Participants Table -->
+                    <div class="col-12 col-md-8">
+                        <div class="table-responsive mb-3">
+                            <table class="table table-striped" id="participantsTable">
+                                <thead>
+                                    <tr>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th hidden>Email</th>
+                                        <th hidden>Phone Number</th>
+                                        <th>Room Type</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Booking.Participants != null && Model.Booking.Participants.Count > 0)
+                                    {
+                                        @foreach (var participant in Model.Booking.Participants)
+                                        {
+                                            <tr>
+                                                <td>@participant.FirstName</td>
+                                                <td>@participant.LastName</td>
+                                                <td hidden>@participant.Email</td>
+                                                <td hidden>@participant.PhoneNumber</td>
+                                                <td>@participant.RoomType <span>Room</span></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-warning mb-1"
+                                                            data-participant-id="@participant.Id"
+                                                            data-booking-id="@Model.Booking.Id"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#addParticipantModal">
+                                                        Edit
+                                                    </button>
+                                                    <form asp-controller="Participant" asp-action="Delete" method="post" style="display:inline;">
+                                                        <input type="hidden" name="participantId" value="@participant.Id" />
+                                                        <button onclick="confirmDelete(event)" class="btn btn-danger mb-1">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Add Participant Button -->
+                        <div class="d-grid d-md-flex justify-content-md-end">
+                            <button type="button" class="btn btn-primary"
+                                    data-participant-id="0"
+                                    data-booking-id="@Model.Booking.Id"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#addParticipantModal">
+                                Add Participant
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="row mt-4 gy-2">
+                    <div class="col-12 col-md-4 d-grid">
+                        <a asp-action="Details" asp-route-tripId="@Model.Booking.TripId" asp-controller="Home" class="btn btn-secondary w-100">Back to Trip page</a>
+                    </div>
+                    <div class="col-12 col-md-4 d-grid">
+                        <form asp-area="User" asp-controller="Booking" asp-action="Delete" method="post" style="display:inline;">
+                            <input type="hidden" name="bookingId" value="@Model.Booking.Id" />
+                            <button onclick="confirmDelete(event)" class="btn btn-danger w-100">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-12 col-md-4 d-grid">
+                        <a asp-area="User" asp-controller="Booking" asp-action="Summary"
+                           asp-route-bookingId="@Model.Booking.Id" class="btn btn-primary w-100">Proceed to Booking Summary</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Participant Modal -->
+<div class="modal fade" id="addParticipantModal" tabindex="-1" aria-labelledby="addParticipantModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="addParticipantModalLabel">Add Participant</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="participantForm" asp-action="Add" asp-area="User" asp-controller="Participant" method="post">
+					<input type="hidden" name="Participant.Id" value="0" />
+					<input type="hidden" name="Booking.Id" value="@Model.Booking.Id" />
+
+					<div class="mb-3">
+						<label for="firstName" class="form-label">First Name</label>
+						<input type="text" class="form-control" id="firstName" name="Participant.FirstName" required>
+					</div>
+					<div class="mb-3">
+						<label for="lastName" class="form-label">Last Name</label>
+						<input type="text" class="form-control" id="lastName" name="Participant.LastName" required>
+					</div>
+					<div class="mb-3">
+						<label for="email" class="form-label">Email</label>
+						<input type="email" class="form-control" id="email" name="Participant.Email" required>
+					</div>
+					<div class="mb-3">
+						<label for="phoneNumber" class="form-label">Phone Number</label>
+						<input type="text" class="form-control" id="phoneNumber" name="Participant.PhoneNumber" required>
+					</div>
+					<div class="mb-3">
+						<label for="roomType" class="form-label">Room Type</label>
+						<select class="form-select" id="roomType" name="Participant.RoomType" required>
+							<option value="Single">Single</option>
+							<option value="Double">Double</option>
+						</select>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" form="participantForm">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="~/js/site.js"></script>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		// Select all edit buttons
+		document.querySelectorAll(".btn-warning").forEach(button => {
+			button.addEventListener("click", function () {
+				// Get participant details from data attributes
+				let participantId = this.getAttribute("data-participant-id");
+				let bookingId = this.getAttribute("data-booking-id");
+
+				// Find the corresponding participant data in the table row
+				let row = this.closest("tr");
+				let firstName = row.children[0].textContent;
+				let lastName = row.children[1].textContent;
+				let email = row.children[2].textContent;
+				let phoneNumber = row.children[3].textContent;
+				let roomType = row.children[4].textContent;
+
+				// Populate modal fields
+				document.getElementById("participantForm").action = "/User/Participant/Add"; // Change form action if needed
+				document.getElementById("firstName").value = firstName;
+				document.getElementById("lastName").value = lastName;
+				document.getElementById("email").value = email;
+				document.getElementById("phoneNumber").value = phoneNumber;
+				document.getElementById("roomType").value = roomType;
+
+				// Set hidden fields
+				document.querySelector("input[name='Participant.Id']").value = participantId;
+				document.querySelector("input[name='Booking.Id']").value = bookingId;
+
+				// Change modal title
+				document.getElementById("addParticipantModalLabel").innerText = "Edit Participant";
+			});
+		});
+
+		// Handle "Add Participant" button separately
+		document.querySelector(".btn-primary[data-bs-target='#addParticipantModal']").addEventListener("click", function () {
+			// Clear all fields for adding a new participant
+			document.getElementById("participantForm").action = "/User/Participant/Add"; // Change form action if needed
+			document.getElementById("firstName").value = "";
+			document.getElementById("lastName").value = "";
+			document.getElementById("email").value = "";
+			document.getElementById("phoneNumber").value = "";
+			document.getElementById("roomType").value = "Single"; // Default selection
+
+			// Reset hidden fields
+			document.querySelector("input[name='Participant.Id']").value = "0";
+			document.querySelector("input[name='Booking.Id']").value = this.getAttribute("data-booking-id");
+
+			// Change modal title
+			document.getElementById("addParticipantModalLabel").innerText = "Add Participant";
+		});
+	});
+</script>

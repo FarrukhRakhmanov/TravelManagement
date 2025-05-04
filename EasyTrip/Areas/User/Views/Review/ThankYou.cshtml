@@ -1,0 +1,19 @@
+﻿@using Domain.Models
+@model Participant
+
+@{
+	ViewData["Title"] = "Thank You Page";
+}
+
+<div class="container my-5">
+	<div class="row justify-content-center text-center">
+		<div class="col-lg-8 col-md-10 col-sm-12">
+			<div class="card shadow-lg rounded-4 p-4">
+				<h1 class="mb-3">@Model.FullName(), thank you for your review!</h1>
+				<h4 class="text-muted mb-4">Your review has been submitted successfully.</h4>
+				<img src="~/images/thank-you.jpg" class="img-fluid rounded-3" alt="Thank You Image" />
+				<a href="/" class="btn btn-primary mt-4 px-4 py-2">Back to Home</a>
+			</div>
+		</div>
+	</div>
+</div>
