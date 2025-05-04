@@ -106,7 +106,7 @@ Follow these instructions to set up the project locally.
    dotnet run
    ```
 
-2. Open your browser and navigate to [http://localhost:5000](http://localhost:5000)
+2. Open your browser and navigate to https://localhost:7124;http://localhost:5263 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
