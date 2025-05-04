@@ -5,7 +5,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
   <a href="https://github.com/yourusername/easytrip">
-    <img src="https://github.com/FarrukhRakhmanov/TravelManagement/EasyTrip/wwwroot/images/icons/logo.png" alt="EasyTrip Logo" width="130" height="130">
+    <img src="https://github.com/FarrukhRakhmanov/TravelManagement/blob/master/EasyTrip/wwwroot/images/icons/logo.png" alt="EasyTrip Logo" width="130" height="130">
   </a>
 
 <h3 align="center">EasyTrip</h3>
