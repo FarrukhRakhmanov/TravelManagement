@@ -60,6 +60,14 @@ EasyTrip is designed for travel agents, tour organizers, and frequent travelers 
 - ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?logo=postgresql&logoColor=white)
 - ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?logo=bootstrap&logoColor=white)
 - ![Entity Framework](https://img.shields.io/badge/Entity%20Framework-6DB33F?logo=.net&logoColor=white)
+- ![Stripe](https://img.shields.io/badge/Stripe-635BFF?logo=stripe&logoColor=white)
+- ![ApexCharts.js](https://img.shields.io/badge/ApexCharts.js-00BFFF?logo=apexcharts&logoColor=white)
+- ![SignalR](https://img.shields.io/badge/SignalR-0078D7?logo=dotnet&logoColor=white)
+- ![TinyMCE](https://img.shields.io/badge/TinyMCE-2B8DBD?logo=tinymce&logoColor=white)
+- ![SweetAlert](https://img.shields.io/badge/SweetAlert2-F4A261?logo=javascript&logoColor=white)
+- ![Toastr](https://img.shields.io/badge/Toastr-E65100?logo=javascript&logoColor=white)
+- ![jQuery](https://img.shields.io/badge/jQuery-0769AD?logo=jquery&logoColor=white)
+- ![AJAX](https://img.shields.io/badge/AJAX-000000?logo=xml&logoColor=white)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -111,8 +119,6 @@ Follow these instructions to set up the project locally.
 - [x] Customer Booking Portal
 - [x] Email & In-App Notifications
 - [x] Feedback & Ratings System
-
-View [open issues](https://github.com/yourusername/easytrip/issues) for future improvements.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
