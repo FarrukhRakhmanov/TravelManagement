@@ -48,7 +48,8 @@ EasyTrip is designed for travel agents, tour organizers, and frequent travelers 
 - **Secure User Roles**: Admins, agents, and travelers each have tailored access.
 - **Real-time Notifications**: Get alerts for bookings, cancellations, and payments.
 - **Feedback & Reviews**: Collect traveler feedback to improve services.
-- 
+- **Secured payments**: Make secured payment through Stripe API.
+  
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
