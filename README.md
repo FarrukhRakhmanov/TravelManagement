@@ -13,7 +13,7 @@
   <p align="center">
     A powerful travel planning and management platform built with ASP.NET MVC.
     <br />
-    <a href="https://easytrip-demo.com">View Demo</a>
+    <a href="http://easytrip.runasp.net/">View Demo</a>
   </p>
 </div>
 
